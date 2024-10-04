@@ -1,0 +1,135 @@
+<!-- @ = &#64; -->
+
+<div class="container-fluid">
+    <div class="row header mb-3 p-3">
+        <div class="col-6">
+            <h4 class=" text-white fs-3">Student Portal</h4>
+        </div>
+        <div class="col-6 text-end">
+            <button class="btn btn-outline-info" (click)="openModel()">Add Student</button>
+        </div>
+    </div>
+
+    <div class="row">
+        @for (std of studentList; track $index) {
+            <div class="col-3 pb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-6">
+                                <!-- azad     -->
+                                {{std.name | uppercase}}
+                            </div>
+                            <div class="col-6 text-end">
+                                {{std.mobile}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p><b>E-mail: </b><span style="float: right;">{{std.email}}</span></p>
+                        <p><span><b>Gender:</b>{{std.gender | titlecase}}</span><span style="float: right;"><b>DOJ:</b> {{std.doj}}</span></p>
+                        <p><b>Address:</b><span style="float: right;">{{std.address}}</span></p>
+                        <p><b>Status:</b><span style="float: right;">{{std.status ? 'Active' : 'InActive'}}</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <i (click)="onEditStudent(std)" class="btn fa fa-edit text-primary fs-4"></i>
+                            </div>
+                            <div class="col-6 text-end">
+                                <i (click)="onDeleteStudent(std)" class="btn fa fa-trash text-danger fs-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               
+        }
+        
+    </div>
+</div>
+
+
+<!-- Model will be open on cliking on the button -->
+
+
+<!-- Modal -->
+<div class="modal" id="myModel" tabindex="-1" #myModel>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if(studentobj.id == 0){
+                    <h5 class="modal-title">Add Student</h5>  
+                }
+                @else {
+                    <h5 class="modal-title">Update Student</h5>
+                }
+                
+               
+                <button type="button" class="btn-close" (click)="closeModel()" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" [(ngModel)]="studentobj.name" class="form-control" placeholder="Name"
+                            name="name">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <input type="text" [(ngModel)]="studentobj.email" class="form-control" placeholder="E-mail"
+                            name="email">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" [(ngModel)]="studentobj.mobile" class="form-control" placeholder="Mobile"
+                            name="mobile">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-6">
+                        <select class="form-control"  [(ngModel)]="studentobj.gender">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <input type="date" [(ngModel)]="studentobj.doj" class="form-control" placeholder="Date of Join"
+                            name="doj">
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <textarea cols="5" rows="3" type="text" placeholder="Address" class="form-control"  [(ngModel)]="studentobj.address"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" [(ngModel)]="studentobj.status">
+                            <label>Active</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closeModel()">Close</button>
+
+                @if(studentobj.id == 0){
+                    <button type="button" class="btn btn-primary" (click)="onSaveform()">Save</button>
+                }
+                @else {
+                    <button type="button" class="btn btn-primary" (click)="onUpdateform()">Update</button>
+
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>
